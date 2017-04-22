@@ -71,6 +71,14 @@ Widget::Widget(QWidget* parent)
     closeBtn->setGeometry(400 - 18, 3, 15, 15);
     connect(closeBtn, SIGNAL(clicked()), this, SLOT(close()));
 
+    // For AI;
+    aiBtn = new QPushButton("AI", this);
+    aiBtn->setFont(font);
+    aiBtn->setStyleSheet("QPushButton{color: white;background:#907963;border-style:flat;}");
+    aiBtn->setFocusPolicy(Qt::NoFocus);
+    connect(aiBtn, SIGNAL(clicked()), this, SLOT(autorun()));
+
+
     resize(400, 510);
     //move((QApplication::desktop()->width() - width())/2,  (QApplication::desktop()->height() - height())/2);
 }
@@ -86,11 +94,24 @@ Widget::~Widget()
 
 void Widget::onScoreInc(int score)
 {
-    scoreLabel->setText(QString("Score:\n %1").arg(score));
+    QFont font;
+    font.setFamily("Arial");
+    font.setBold(true);
+    font.setPixelSize(15);
+
+    scoreLabel->setText(QString("SCORE\n%1").arg(score));
+
+    scoreLabel->setFont(font);
+    scoreLabel->setAlignment(Qt::AlignCenter);
+    scoreLabel->setStyleSheet("QLabel{color:#FFFFEE;background:#BEAD9D}");
 
     if (score > bestScore) {
         bestScore = score;
-        bestScoreLabel->setText(QString("Score:\n %1").arg(bestScore));
+        bestScoreLabel->setText(QString("BEST\n%1").arg(bestScore));
+
+        bestScoreLabel->setFont(font);
+        bestScoreLabel->setAlignment(Qt::AlignCenter);
+        bestScoreLabel->setStyleSheet("QLabel{color:#FFFFEE;background:#BEAD9D}");
 
         QFile file("score.j");
         file.open(QIODevice::WriteOnly);
@@ -118,7 +139,8 @@ void Widget::resizeEvent(QResizeEvent *)
     titleLabel->setGeometry(20 * ratioW, 40 * ratioH , 130 * ratioW, 50 * ratioH);
     tipsLabel->setGeometry(20 * ratioW, 100 * ratioH , 300 * ratioW, 20 * ratioH);
     gameWidget->setGeometry(18 * ratioW, 140 * ratioH, 365 * ratioW, 365 * ratioH);
-    restartBtn->setGeometry(280 * ratioW, 90 * ratioH, 100 * ratioW, 30 * ratioH);
+    restartBtn->setGeometry(280 * ratioW, 85 * ratioH, 100 * ratioW, 25 * ratioH);
+    aiBtn->setGeometry(280 * ratioW, 115 * ratioH, 100 * ratioW, 25 * ratioH);
     bestScoreLabel->setGeometry(300 * ratioW, 40 * ratioH, 80 * ratioW, 40 * ratioH);
     scoreLabel->setGeometry(210 * ratioW, 40 * ratioH, 80 * ratioW, 40 * ratioH);
 }

@@ -8,6 +8,8 @@
 #include<QPainter>
 #include<QList>
 
+#include "ai.h"
+
 enum GestureDirect {
     LEFT, RIGHT, UP, DOWN
 };
@@ -58,6 +60,8 @@ private:
     void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *);
 
+    AI ai;
+
 signals:
     void GestureMove(GestureDirect);
 
@@ -65,11 +69,12 @@ signals:
 
     void GameOver();
 
-    void win();
+    void Win();
 
 public slots:
     void onGestureMove(GestureDirect);
     void restart();
+    void autorun();
 };
 
 #endif // GAMEWIDGET_H
