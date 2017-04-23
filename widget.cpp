@@ -1,6 +1,7 @@
 #include "widget.h"
 //#include "ui_widget.h"
 #include <QApplication>
+#include <QDesktopWidget>
 
 Widget::Widget(QWidget* parent)
     : QWidget(parent)
@@ -72,7 +73,8 @@ Widget::Widget(QWidget* parent)
     connect(closeBtn, SIGNAL(clicked()), this, SLOT(close()));
 
     resize(400, 510);
-    //move((QApplication::desktop()->width() - width())/2,  (QApplication::desktop()->height() - height())/2);
+
+    move((QApplication::desktop()->width() - width())/2,  (QApplication::desktop()->height() - height())/2);
 }
 
 Widget::~Widget()
@@ -115,7 +117,7 @@ void Widget::resizeEvent(QResizeEvent *)
     ratioW = width() / 400.0f;
     ratioH = height() / 510.0f;
     // 重置子部件大小和位置
-    titleLabel->setGeometry(20 * ratioW, 40 * ratioH , 130 * ratioW, 50 * ratioH);
+    titleLabel->setGeometry(20 * ratioW, 40 * ratioH , 150 * ratioW, 50 * ratioH);
     tipsLabel->setGeometry(20 * ratioW, 100 * ratioH , 300 * ratioW, 20 * ratioH);
     gameWidget->setGeometry(18 * ratioW, 140 * ratioH, 365 * ratioW, 365 * ratioH);
     restartBtn->setGeometry(280 * ratioW, 90 * ratioH, 100 * ratioW, 30 * ratioH);
