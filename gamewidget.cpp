@@ -367,7 +367,7 @@ void GameWidget::onGestureMove(GestureDirect direct)
 
     // 检测游戏是否获胜
     if (checkWin())
-        emit win();// 如果获胜则发射win信号
+        emit Win();// 如果获胜则发射win信号
 
     update();
 }
@@ -574,4 +574,8 @@ int GameWidget::getBitCount(int n)
         c++;
     // 返回位数-1
     return c - 1;
+}
+
+void GameWidget::autorun() {
+    //
 }

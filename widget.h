@@ -9,6 +9,7 @@
 #include <QtGui>
 
 #include "gamewidget.h"
+#include "ai.h"
 
 namespace Ui {
 class Widget;
@@ -16,42 +17,43 @@ class Widget;
 
 class Widget : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  explicit Widget(QWidget* parent = 0);
-  ~Widget();
+    explicit Widget(QWidget* parent = 0);
+    ~Widget();
 
 private:
-  Ui::Widget* ui;
+    Ui::Widget* ui;
 
-  QPushButton* restartBtn;
-  QPushButton* closeBtn;
+    QPushButton* restartBtn;
+    QPushButton* closeBtn;
+    QPushButton* aiBtn;
 
-  QLabel* titleLabel;
-  QLabel* tipsLabel;
-  QLabel* scoreLabel;
-  QLabel* bestScoreLabel;
+    QLabel* titleLabel;
+    QLabel* tipsLabel;
+    QLabel* scoreLabel;
+    QLabel* bestScoreLabel;
 
-  GameWidget* gameWidget;
+    GameWidget* gameWidget;
 
-  qreal ratioW, ratioH;
+    qreal ratioW, ratioH;
 
-  int bestScore;
-  QPoint dragPosition;
-  bool bPressFlag;
+    int bestScore;
+    QPoint dragPosition;
+    bool bPressFlag;
 
 protected:
-  void resizeEvent(QResizeEvent*);
-  void keyPressEvent(QKeyEvent*);
-  void mouseMoveEvent(QMouseEvent*);
-  void mousePressEvent(QMouseEvent*);
-  void mouseReleaseEvent(QMouseEvent*);
+    void resizeEvent(QResizeEvent*);
+    void keyPressEvent(QKeyEvent*);
+    void mouseMoveEvent(QMouseEvent*);
+    void mousePressEvent(QMouseEvent*);
+    void mouseReleaseEvent(QMouseEvent*);
 
 public slots:
-  void onScoreInc(int);
-  void onGameOver();
-  void onWin();
+    void onScoreInc(int);
+    void onGameOver();
+    void onWin();
 };
 
 #endif // WIDGET_H
