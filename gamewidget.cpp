@@ -1,6 +1,10 @@
 #include "gamewidget.h"
 #include<QDebug>
 #include<cmath>
+#include<vector>
+
+using namespace std;
+
 QColor digitBkg[11] = {QColor::fromRgb(0xEE, 0xE5, 0xDB), QColor::fromRgb(0xEC, 0xE0, 0xC8),
                        QColor::fromRgb(0xF2, 0xAF, 0x78), QColor::fromRgb(0xEE, 0x8A, 0x54),
                        QColor::fromRgb(0xFE, 0x76, 0x5E), QColor::fromRgb(0xE7, 0x58, 0xC),
@@ -9,6 +13,9 @@ QColor digitBkg[11] = {QColor::fromRgb(0xEE, 0xE5, 0xDB), QColor::fromRgb(0xEC, 
                        QColor::fromRgb(0xFF, 0x00, 0x00)};
 
 QPointF dPos[5] = {QPointF(-10, 0), QPointF(10, 0), QPointF(0, -10), QPointF(0, 10), QPointF(-2, -2)};
+
+
+
 
 GameWidget::GameWidget(QWidget *parent) : QWidget(parent)
 {

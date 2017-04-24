@@ -7,12 +7,12 @@
 #include<QTimer>
 #include<QPainter>
 #include<QList>
+#include<vector>
 
+#include "utils.h"
 #include "ai.h"
 
-enum GestureDirect {
-    LEFT, RIGHT, UP, DOWN
-};
+using namespace std;
 
 enum AnimationType {
     MOVE, APPEARANCE

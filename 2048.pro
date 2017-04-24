@@ -26,10 +26,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += main.cpp\
         widget.cpp \
     gamewidget.cpp \
-    ai.cpp
+    ai.cpp \
+    utils.cpp
 
 HEADERS  += widget.h \
     gamewidget.h \
-    ai.h
+    ai.h \
+    utils.h
 
 FORMS    += widget.ui

@@ -1,39 +1,32 @@
 #ifndef AI_H
 #define AI_H
-#include "gamewidget.h"
+
 #include <vector>
+#include "utils.h"
 
-struct Cell {
-    int x;
-    int y;
-};
+using namespace std;
 
-struct Result {
-    GestureDirect move;
-    int score;
-    Cell positions;
-    //cutoffs
-};
 
-class Grid {
-public:
-    Grid();
-    Grid(int array[4][4]);
+
+//class Grid {
+//public:
+//    Grid();
+//    Grid(int array[4][4]);
     
-private:
-    int cells[4][4];
-    vector<Cell> availableCells();
-    double smoothness();
-    double monotonicity2();
-    double maxValue();
+//private:
+//    int cells[4][4];
+//    vector<Cell> availableCells();
+//    double smoothness();
+//    double monotonicity2();
+//    double maxValue();
     
-};
+//};
 
 class AI
 {
 public:
     AI();
-    AI(int grid[4][4]);
+    AI(int array[4][4]);
 
 private:
     //int grid[4][4];

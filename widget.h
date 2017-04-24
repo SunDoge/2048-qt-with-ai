@@ -8,8 +8,10 @@
 #include <QWidget>
 #include <QtGui>
 
+//#include "ai.h"
 #include "gamewidget.h"
-#include "ai.h"
+//#include "ai.h"
+
 
 namespace Ui {
 class Widget;
