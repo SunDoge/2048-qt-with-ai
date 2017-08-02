@@ -10,7 +10,7 @@
 #include<vector>
 
 #include "utils.h"
-#include "ai.h"
+//#include "ai.h"
 
 using namespace std;
 
@@ -33,8 +33,19 @@ class GameWidget : public QWidget
 public:
     explicit GameWidget(QWidget *parent = 0);
 
-private:
+    // For AI to eval
+    bool playerTurn();
+    vector<Cell> availableCells();
+    double smoothness();
+    double monotonicity2();
+    double maxValue();
+    GameWidget* clone();
+    void setBoard(int b[4][4]);
+
     int board[4][4];
+
+private:
+
 
     int digitCount;
     int score;
@@ -60,7 +71,17 @@ private:
     void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *);
 
-    AI ai;
+//    AI ai;
+    Cell findFarthestPosition(Cell, Vector);
+    bool withinBounds(Cell);
+    bool cellOccupied(Cell);
+
+    Vector vectors[4] = {
+       { 0,  -1 }, // up
+       { 1,  0 },  // right
+       { 0,  1 },  // down
+       { -1, 0 }   // left
+    };
 
 signals:
     void GestureMove(GestureDirect);

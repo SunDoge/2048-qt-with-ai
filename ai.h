@@ -3,6 +3,7 @@
 
 #include <vector>
 #include "utils.h"
+#include "gamewidget.h"
 
 using namespace std;
 
@@ -26,12 +27,16 @@ class AI
 {
 public:
     AI();
-    AI(int array[4][4]);
+//    AI(int array[4][4]);
+    AI(GameWidget *);
+    AI(Grid *);
 
 private:
     //int grid[4][4];
-    Grid grid;
-    Result search(int, double, double, Cell);
+//    Grid grid;
+    Grid *grid;
+    double eval();
+    Result search(int, double, double, int, int);
     Result iterativeDeep();
     Result getBest();
 };

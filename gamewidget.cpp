@@ -100,7 +100,7 @@ void GameWidget::onGestureMove(GestureDirect direct)
     int i, j, k;
     Animation a;
     // 是否合并过方格
-    bool combine = false;
+    // bool combine = false;
     // 处理不同方向
     switch (direct)
     {
@@ -113,7 +113,7 @@ void GameWidget::onGestureMove(GestureDirect direct)
              * 这里j表示要交换的数字列号
              * k表示交换到的位置的列号
              * */
-            j = 0, k = 0, combine = false;
+            j = 0, k = 0;
             while (true)
             {
                 // 循环找到第一个不是0的数字对应的列号
@@ -132,7 +132,7 @@ void GameWidget::onGestureMove(GestureDirect direct)
                 a.digit0 = a.digit1 = board[i][k];
                 a.direct = LEFT;
                 //如果交换后的数字与其前一列的数字相同
-                if (!combine && k > 0 && board[i][k] == board[i][k - 1])
+                if (k > 0 && board[i][k] == board[i][k - 1])
                 {
                     // 前一列的数字*2
                     board[i][k - 1] <<= 1;
@@ -147,7 +147,7 @@ void GameWidget::onGestureMove(GestureDirect direct)
                     emit ScoreInc(score);
                     // 数码个数-1
                     digitCount--;
-                    combine = true;
+//                    combine = true;
                 }
                 else
                     k++;
@@ -161,7 +161,7 @@ void GameWidget::onGestureMove(GestureDirect direct)
     case RIGHT:
         for (i = 0; i < 4; i++)
         {
-            j = 3, k = 3, combine = false;
+            j = 3, k = 3;
             while (true)
             {
                 while (j > -1 && board[i][j] == 0)
@@ -174,7 +174,7 @@ void GameWidget::onGestureMove(GestureDirect direct)
                 a.endPos = QPointF(7 + (w + 5) * k, 7 + (h + 5) * i);
                 a.digit0 = a.digit1 = board[i][k];
                 a.direct = RIGHT;
-                if (!combine && k < 3 && board[i][k] == board[i][k + 1])
+                if (k < 3 && board[i][k] == board[i][k + 1])
                 {
                     board[i][k + 1] <<= 1;
                     board[i][k] = 0;
@@ -183,7 +183,7 @@ void GameWidget::onGestureMove(GestureDirect direct)
                     score += board[i][k + 1];
                     emit ScoreInc(score);
                     digitCount--;
-                    combine = true;
+//                    combine = true;
                 }
                 else
                     k--;
@@ -195,7 +195,7 @@ void GameWidget::onGestureMove(GestureDirect direct)
     case UP:
         for (i = 0; i < 4; i++)
         {
-            j = 0, k = 0, combine = false;
+            j = 0, k = 0;
             while (true)
             {
                 while (j < 4 && board[j][i] == 0)
@@ -208,7 +208,7 @@ void GameWidget::onGestureMove(GestureDirect direct)
                 a.endPos = QPointF(7 + (w + 5) * i, 7 + (h + 5) * k);
                 a.digit0 = a.digit1 = board[k][i];
                 a.direct = UP;
-                if (!combine && k > 0 && board[k][i] == board[k - 1][i])
+                if (k > 0 && board[k][i] == board[k - 1][i])
                 {
                     board[k - 1][i] <<= 1;
                     board[k][i] = 0;
@@ -217,7 +217,7 @@ void GameWidget::onGestureMove(GestureDirect direct)
                     score += board[k - 1][i];
                     emit ScoreInc(score);
                     digitCount--;
-                    combine = true;
+//                    combine = true;
                 }
                 else
                     k++;
@@ -229,7 +229,7 @@ void GameWidget::onGestureMove(GestureDirect direct)
     case DOWN:
         for (i = 0; i < 4; i++)
         {
-            j = 3, k = 3, combine = false;
+            j = 3, k = 3;
             while (true)
             {
                 while (j > -1 && board[j][i] == 0)
@@ -242,7 +242,7 @@ void GameWidget::onGestureMove(GestureDirect direct)
                 a.endPos = QPointF(7 + (w + 5) * i, 7 + (h + 5) * k);
                 a.digit0 = a.digit1 = board[k][i];
                 a.direct = DOWN;
-                if (!combine && k < 3 && board[k][i] == board[k + 1][i])
+                if (k < 3 && board[k][i] == board[k + 1][i])
                 {
                     board[k + 1][i] <<= 1;
                     board[k][i] = 0;
@@ -251,7 +251,7 @@ void GameWidget::onGestureMove(GestureDirect direct)
                     score += board[k + 1][i];
                     emit ScoreInc(score);
                     digitCount--;
-                    combine = true;
+//                    combine = true;
                 }
                 else
                     k--;
@@ -277,8 +277,9 @@ void GameWidget::onGestureMove(GestureDirect direct)
         while (board[i][j] != 0)
             i = rand() % 4, j = rand() % 4;
         // 填入2
-        //board[i][j] = (rand() % 2 + 1) * 2;
-        board[i][j] = 2;
+//        board[i][j] = (rand() % 2 + 1) * 2;
+//        board[i][j] = 2;
+        board[i][j] = rand() / double(RAND_MAX) < 0.9 ? 2 : 4;
         // 记录动画信息
         a.type = APPEARANCE;
         a.startPos = a.endPos = QPointF(7 + (w + 5) * j, 7 + (h + 5) * i);
@@ -583,6 +584,167 @@ int GameWidget::getBitCount(int n)
     return c - 1;
 }
 
+// ******
+// For AI
+// ******
+
 void GameWidget::autorun() {
     //
 }
+
+bool GameWidget::playerTurn() {
+    return !isAnimating;
+}
+
+vector<Cell> GameWidget::availableCells() {
+    vector<Cell> c;
+    for(int i = 0; i < 4; i++) {
+        for (int j = 0; j< 4; j++) {
+            if(!board[i][j]) {
+                c.push_back({i,j});
+            }
+        }
+    }
+    return c;
+}
+
+double GameWidget::smoothness() {
+    double smoothness = 0;
+    for(int x=0; x<4; x++) {
+        for(int y = 0; y<4 ; y++) {
+            if(board[x][y]) {
+                double value = log(board[x][y]) / log(2);
+                for (int direction = 1; direction <=2; direction++) {
+                    Vector vector = vectors[direction];
+
+                    Cell targetCell = findFarthestPosition({x,y}, vector);
+
+                    if(cellOccupied(targetCell)) {
+                        int target = board[targetCell.x][targetCell.y];
+                        double targetValue = log(target) / log(2);
+                        smoothness -= abs(value - targetValue);
+                    }
+                }
+            }
+        }
+    }
+    return smoothness;
+}
+
+double GameWidget::monotonicity2()
+{
+    double totals[4] = {0,0,0,0};
+    for(int x = 0; x < 4; x++) {
+        int current = 0;
+        int next = current + 1;
+        while(next < 4) {
+            while(next < 4 && !cellOccupied({x, next})) {
+                next++;
+            }
+            if(next >= 4) {
+                next--;
+            }
+            double currentValue = cellOccupied({x, current}) ?
+                    log(board[x][current]) / log(2) :
+                    0;
+            double nextValue = cellOccupied({x, next}) ?
+                    log(board[x][next]) / log(2) :
+                    0;
+          if (currentValue > nextValue) {
+            totals[0] += nextValue - currentValue;
+          } else if (nextValue > currentValue) {
+            totals[1] += currentValue - nextValue;
+          }
+          current = next;
+          next++;
+        }
+    }
+
+    for(int y = 0; y < 4; y++) {
+        int current = 0;
+        int next = current + 1;
+        while(next < 4) {
+            while(next < 4 && !cellOccupied({next, y})) {
+                next++;
+            }
+            if(next >= 4) {
+                next--;
+            }
+            double currentValue = cellOccupied({current, y}) ?
+                    log(board[current][y]) / log(2) :
+                    0;
+            double nextValue = cellOccupied({next, y}) ?
+                    log(board[next][y]) / log(2) :
+                    0;
+          if (currentValue > nextValue) {
+            totals[2] += nextValue - currentValue;
+          } else if (nextValue > currentValue) {
+            totals[3] += currentValue - nextValue;
+          }
+          current = next;
+          next++;
+        }
+    }
+
+    return max(totals[0], totals[1]) + max(totals[2], totals[3]);
+}
+
+double GameWidget::maxValue()
+{
+    int max = 0;
+      for (int x=0; x<4; x++) {
+        for (int y=0; y<4; y++) {
+            if (cellOccupied({x, y})) {
+            int value = board[x][y];
+            if (value > max) {
+              max = value;
+            }
+          }
+        }
+      }
+
+      return log(max) / log(2);
+}
+
+Cell GameWidget::findFarthestPosition(Cell cell, Vector vector)
+{
+    Cell previous;
+    do {
+        previous = cell;
+        cell = {
+            previous.x + vector.x, previous.y + vector.y
+        };
+    }while (withinBounds(cell) && !cellOccupied(cell));
+
+    return cell;
+}
+
+bool GameWidget::withinBounds(Cell position)
+{
+    return position.x >= 0 && position.x < 4 &&
+             position.y >= 0 && position.y < 4;
+}
+
+bool GameWidget::cellOccupied(Cell cell)
+{
+    return board[cell.x][cell.y];
+}
+
+GameWidget* GameWidget::clone()
+{
+    GameWidget *gameWidget = new GameWidget();
+    gameWidget->setBoard(board);
+    return gameWidget;
+}
+
+void GameWidget::setBoard(int b[4][4])
+{
+    for(int x = 0; x < 4; x++) {
+        for(int y = 0; y < 4; y++) {
+            board[x][y] = b[x][y];
+        }
+    }
+}
+
+
+

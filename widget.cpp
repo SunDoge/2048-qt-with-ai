@@ -37,7 +37,7 @@ Widget::Widget(QWidget* parent)
     gameWidget->setFocus();
     connect(gameWidget, SIGNAL(ScoreInc(int)), this, SLOT(onScoreInc(int)));
     connect(gameWidget, SIGNAL(GameOver()), this, SLOT(onGameOver()));
-    connect(gameWidget, SIGNAL(win()), this, SLOT(onWin()));
+    connect(gameWidget, SIGNAL(Win()), this, SLOT(onWin()));
 
     QFont font;
     font.setFamily("Arial");
@@ -77,7 +77,7 @@ Widget::Widget(QWidget* parent)
     aiBtn->setFont(font);
     aiBtn->setStyleSheet("QPushButton{color: white;background:#907963;border-style:flat;}");
     aiBtn->setFocusPolicy(Qt::NoFocus);
-    connect(aiBtn, SIGNAL(clicked()), this, SLOT(autorun()));
+    connect(aiBtn, SIGNAL(clicked()), gameWidget, SLOT(autorun()));
 
 
     resize(400, 510);
