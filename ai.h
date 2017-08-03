@@ -1,44 +1,43 @@
+//
+// Created by Sun Doge on 2017/8/2.
+//
+
 #ifndef AI_H
 #define AI_H
 
-#include <vector>
-#include "utils.h"
-#include "gamewidget.h"
+#include <ctime>
+#include <QtCore>
 
-using namespace std;
+#include "grid.h"
 
-
-
-//class Grid {
-//public:
-//    Grid();
-//    Grid(int array[4][4]);
-    
-//private:
-//    int cells[4][4];
-//    vector<Cell> availableCells();
-//    double smoothness();
-//    double monotonicity2();
-//    double maxValue();
-    
-//};
-
-class AI
-{
-public:
-    AI();
-//    AI(int array[4][4]);
-    AI(GameWidget *);
-    AI(Grid *);
-
-private:
-    //int grid[4][4];
-//    Grid grid;
-    Grid *grid;
-    double eval();
-    Result search(int, double, double, int, int);
-    Result iterativeDeep();
-    Result getBest();
+struct Result {
+    int move;
+    double score;
+    int positions;
+    int cutoffs;
 };
 
-#endif // AI_H
+//time_t minSearchTime = 1;
+
+
+class AI {
+public:
+    AI(Grid *g);
+
+    int getBest();
+
+private:
+    Grid *grid;
+
+    double eval();
+
+    Result search(int depth, double alpha, double beta, int positions, int cutoffs);
+
+    Result iterativeDeep();
+};
+
+
+#endif //AI_H
+
+
+

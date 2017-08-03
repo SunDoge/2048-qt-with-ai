@@ -8,11 +8,15 @@
 #include<QPainter>
 #include<QList>
 #include<vector>
+#include<cmath>
 
-#include "utils.h"
-//#include "ai.h"
+#include "ai.h"
 
 using namespace std;
+
+enum GestureDirect {
+    LEFT, RIGHT, UP, DOWN
+};
 
 enum AnimationType {
     MOVE, APPEARANCE
@@ -34,13 +38,13 @@ public:
     explicit GameWidget(QWidget *parent = 0);
 
     // For AI to eval
-    bool playerTurn();
-    vector<Cell> availableCells();
-    double smoothness();
-    double monotonicity2();
-    double maxValue();
-    GameWidget* clone();
-    void setBoard(int b[4][4]);
+//    bool playerTurn();
+//    vector<Cell> availableCells();
+//    double smoothness();
+//    double monotonicity2();
+//    double maxValue();
+//    GameWidget* clone();
+//    void setBoard(int b[4][4]);
 
     int board[4][4];
 
@@ -59,6 +63,8 @@ private:
 
     bool isAnimating;
 
+    bool isAutorunning;
+
     bool checkGameOver();
 
     bool checkWin();
@@ -71,17 +77,18 @@ private:
     void paintEvent(QPaintEvent *);
     void keyPressEvent(QKeyEvent *);
 
-//    AI ai;
-    Cell findFarthestPosition(Cell, Vector);
-    bool withinBounds(Cell);
-    bool cellOccupied(Cell);
+    AI *ai;
+    Grid *grid;
+//    Cell findFarthestPosition(Cell, Vector);
+//    bool withinBounds(Cell);
+//    bool cellOccupied(Cell);
 
-    Vector vectors[4] = {
-       { 0,  -1 }, // up
-       { 1,  0 },  // right
-       { 0,  1 },  // down
-       { -1, 0 }   // left
-    };
+//    Vector vectors[4] = {
+//       { 0,  -1 }, // up
+//       { 1,  0 },  // right
+//       { 0,  1 },  // down
+//       { -1, 0 }   // left
+//    };
 
 signals:
     void GestureMove(GestureDirect);
