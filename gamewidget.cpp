@@ -12,7 +12,7 @@ QColor digitBkg[11] = {QColor::fromRgb(0xEE, 0xE5, 0xDB), QColor::fromRgb(0xEC, 
                        QColor::fromRgb(0xCC, 0x33, 0x33), QColor::fromRgb(0xE3, 0xB9, 0x11),
                        QColor::fromRgb(0xFF, 0x00, 0x00)};
 
-QPointF dPos[5] = {QPointF(-10, 0), QPointF(10, 0), QPointF(0, -10), QPointF(0, 10), QPointF(-2, -2)};
+QPointF dPos[5] = {QPointF(-15, 0), QPointF(15, 0), QPointF(0, -15), QPointF(0, 15), QPointF(-2, -2)};
 
 
 
@@ -379,8 +379,10 @@ void GameWidget::onGestureMove(GestureDirect direct)
     isAnimating = false;
 
     // 检测游戏是否获胜
-    if (checkWin())
+    if (checkWin()) {
+        isAutorunning = false;
         emit Win();// 如果获胜则发射win信号
+    }
 
     update();
 }
@@ -566,6 +568,7 @@ bool GameWidget::checkGameOver()
             if (i != 3 && board[i][j] == board[i + 1][j])
                 return false;
         }
+    isAutorunning = false;
     return true;
 }
 
@@ -575,7 +578,7 @@ bool GameWidget::checkWin()
     for (int i = 0; i < 4; i++)
         for (int j = 0; j < 4; j++)
             if (board[i][j] == 2048) {
-                isAutorunning = false;
+
                 return true;
             }
 
@@ -601,8 +604,8 @@ void GameWidget::autorun() {
 
     isAutorunning = !isAutorunning;
 
-    while (isAutorunning && !isAnimating) {
-
+    while (isAutorunning == true && !isAnimating) {
+        cout << "Auto running. isAutorunning = " << isAutorunning << "time: "<< time(NULL) <<endl;
 //    if(!isAnimating) {
 
         grid->update(board);
@@ -627,165 +630,22 @@ void GameWidget::autorun() {
             emit GestureMove(DOWN);
             break;
         default:
-            break;
+            isAnimating = false;
         }
     }
 
 }
 
-//bool GameWidget::playerTurn() {
-//    return !isAnimating;
-//}
+GameWidget::~GameWidget()
+{
+    cout << "Disable autorunning" << endl;
+    isAutorunning = false;
+    delete ai;
+    delete grid;
+}
 
-//vector<Cell> GameWidget::availableCells() {
-//    vector<Cell> c;
-//    for(int i = 0; i < 4; i++) {
-//        for (int j = 0; j< 4; j++) {
-//            if(!board[i][j]) {
-//                c.push_back({i,j});
-//            }
-//        }
-//    }
-//    return c;
-//}
-
-//double GameWidget::smoothness() {
-//    double smoothness = 0;
-//    for(int x=0; x<4; x++) {
-//        for(int y = 0; y<4 ; y++) {
-//            if(board[x][y]) {
-//                double value = log(board[x][y]) / log(2);
-//                for (int direction = 1; direction <=2; direction++) {
-//                    Vector vector = vectors[direction];
-
-//                    Cell targetCell = findFarthestPosition({x,y}, vector);
-
-//                    if(cellOccupied(targetCell)) {
-//                        int target = board[targetCell.x][targetCell.y];
-//                        double targetValue = log(target) / log(2);
-//                        smoothness -= abs(value - targetValue);
-//                    }
-//                }
-//            }
-//        }
-//    }
-//    return smoothness;
-//}
-
-//double GameWidget::monotonicity2()
-//{
-//    double totals[4] = {0,0,0,0};
-//    for(int x = 0; x < 4; x++) {
-//        int current = 0;
-//        int next = current + 1;
-//        while(next < 4) {
-//            while(next < 4 && !cellOccupied({x, next})) {
-//                next++;
-//            }
-//            if(next >= 4) {
-//                next--;
-//            }
-//            double currentValue = cellOccupied({x, current}) ?
-//                    log(board[x][current]) / log(2) :
-//                    0;
-//            double nextValue = cellOccupied({x, next}) ?
-//                    log(board[x][next]) / log(2) :
-//                    0;
-//          if (currentValue > nextValue) {
-//            totals[0] += nextValue - currentValue;
-//          } else if (nextValue > currentValue) {
-//            totals[1] += currentValue - nextValue;
-//          }
-//          current = next;
-//          next++;
-//        }
-//    }
-
-//    for(int y = 0; y < 4; y++) {
-//        int current = 0;
-//        int next = current + 1;
-//        while(next < 4) {
-//            while(next < 4 && !cellOccupied({next, y})) {
-//                next++;
-//            }
-//            if(next >= 4) {
-//                next--;
-//            }
-//            double currentValue = cellOccupied({current, y}) ?
-//                    log(board[current][y]) / log(2) :
-//                    0;
-//            double nextValue = cellOccupied({next, y}) ?
-//                    log(board[next][y]) / log(2) :
-//                    0;
-//          if (currentValue > nextValue) {
-//            totals[2] += nextValue - currentValue;
-//          } else if (nextValue > currentValue) {
-//            totals[3] += currentValue - nextValue;
-//          }
-//          current = next;
-//          next++;
-//        }
-//    }
-
-//    return max(totals[0], totals[1]) + max(totals[2], totals[3]);
-//}
-
-//double GameWidget::maxValue()
-//{
-//    int max = 0;
-//      for (int x=0; x<4; x++) {
-//        for (int y=0; y<4; y++) {
-//            if (cellOccupied({x, y})) {
-//            int value = board[x][y];
-//            if (value > max) {
-//              max = value;
-//            }
-//          }
-//        }
-//      }
-
-//      return log(max) / log(2);
-//}
-
-//Cell GameWidget::findFarthestPosition(Cell cell, Vector vector)
-//{
-//    Cell previous;
-//    do {
-//        previous = cell;
-//        cell = {
-//            previous.x + vector.x, previous.y + vector.y
-//        };
-//    }while (withinBounds(cell) && !cellOccupied(cell));
-
-//    return cell;
-//}
-
-//bool GameWidget::withinBounds(Cell position)
-//{
-//    return position.x >= 0 && position.x < 4 &&
-//             position.y >= 0 && position.y < 4;
-//}
-
-//bool GameWidget::cellOccupied(Cell cell)
-//{
-//    return board[cell.x][cell.y];
-//}
-
-//GameWidget* GameWidget::clone()
-//{
-//    GameWidget *gameWidget = new GameWidget();
-//    gameWidget->setBoard(board);
-//    return gameWidget;
-//}
-
-//void GameWidget::setBoard(int b[4][4])
-//{
-//    for(int x = 0; x < 4; x++) {
-//        for(int y = 0; y < 4; y++) {
-//            board[x][y] = b[x][y];
-//        }
-//    }
-//}
-
+void GameWidget::setIsAutorunning(bool p) {
+    isAutorunning = p;
+}
 
 

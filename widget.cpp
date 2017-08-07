@@ -70,7 +70,8 @@ Widget::Widget(QWidget* parent)
                             "QPushButton:hover{border-style:flat;color:#FF0000}");
     closeBtn->setCursor(Qt::PointingHandCursor);
     closeBtn->setGeometry(400 - 18, 3, 15, 15);
-    connect(closeBtn, SIGNAL(clicked()), this, SLOT(close()));
+
+    connect(closeBtn, SIGNAL(clicked()), this, SLOT(onClose()));
 
     // For AI;
     aiBtn = new QPushButton("AI", this);
@@ -87,11 +88,14 @@ Widget::Widget(QWidget* parent)
 
 Widget::~Widget()
 {
-    // delete ui;
+//    delete ui;
     delete restartBtn;
     delete scoreLabel;
     delete bestScoreLabel;
+    cout << "close game widget" << endl;
+    gameWidget->setIsAutorunning(false);
     delete gameWidget;
+    exit(0);
 }
 
 void Widget::onScoreInc(int score)
@@ -174,3 +178,17 @@ void Widget::mouseReleaseEvent(QMouseEvent *event)
     QWidget::mouseReleaseEvent(event);
 }
 
+void Widget::onClose() {
+    cout << "onCLose()" << endl;
+    gameWidget->setIsAutorunning(false);
+    close();
+}
+
+void Widget::closeEvent(QCloseEvent *e) {
+    gameWidget->setIsAutorunning(false);
+    gameWidget->close();
+    cout << "close event" << endl;
+//    e->accept();
+    cout << "continue" << endl;
+    exit(0);
+}

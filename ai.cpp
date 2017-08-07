@@ -132,7 +132,7 @@ Result AI::search(int depth, double alpha, double beta, int positions, int cutof
             }
             if (bestScore < alpha) {
                 cutoffs++;
-                return { .score = alpha, .positions = positions, .cutoffs = cutoffs };
+                return { .score = -1, .positions = positions, .cutoffs = cutoffs };
             }
         }
     }
@@ -142,10 +142,10 @@ Result AI::search(int depth, double alpha, double beta, int positions, int cutof
 
 Result AI::iterativeDeep() {
 //    time_t start = time(NULL);
-//    QTime start;
-//    start.start();
+    QTime start;
+    start.start();
     int depth = 0;
-    Result best;
+    Result best = {.move = -1 };
     do {
 //        cout << "do begin" << endl;
         Result newBest = search(depth, -10000, 10000, 0 ,0);
@@ -157,7 +157,8 @@ Result AI::iterativeDeep() {
         }
         depth++;
 //        cout << "depth: " << depth << endl;
-    } while (depth < 5);
-
+//    } while (depth < 5 && best.move != -1);
+      } while (start.elapsed() < 50);
+//       cout << depth << endl;
     return best;
 }

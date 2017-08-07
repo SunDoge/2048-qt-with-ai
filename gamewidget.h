@@ -36,7 +36,7 @@ class GameWidget : public QWidget
     Q_OBJECT
 public:
     explicit GameWidget(QWidget *parent = 0);
-
+    ~GameWidget();
     // For AI to eval
 //    bool playerTurn();
 //    vector<Cell> availableCells();
@@ -46,11 +46,11 @@ public:
 //    GameWidget* clone();
 //    void setBoard(int b[4][4]);
 
-    int board[4][4];
+    void setIsAutorunning(bool);
 
 private:
 
-
+    int board[4][4];
     int digitCount;
     int score;
 
@@ -89,6 +89,7 @@ private:
 //       { 0,  1 },  // down
 //       { -1, 0 }   // left
 //    };
+
 
 signals:
     void GestureMove(GestureDirect);

@@ -51,11 +51,13 @@ protected:
     void mouseMoveEvent(QMouseEvent*);
     void mousePressEvent(QMouseEvent*);
     void mouseReleaseEvent(QMouseEvent*);
+    void closeEvent(QCloseEvent *e);
 
 public slots:
     void onScoreInc(int);
     void onGameOver();
     void onWin();
+    void onClose();
 };
 
 #endif // WIDGET_H

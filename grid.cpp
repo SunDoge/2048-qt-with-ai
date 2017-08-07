@@ -16,6 +16,10 @@ Grid::Grid(int a[4][4]) {
     playerTurn = true;
 }
 
+Grid::~Grid() {
+
+}
+
 bool Grid::move(int direction) {
     // 0: up, 1: right, 2:down, 3: left
 
@@ -294,7 +298,7 @@ vector<Cell> Grid::availableCells() {
     for (int x = 0; x < 4; x++) {
         for (int y = 0; y < 4; y++) {
             if (!cells[x][y]) {
-                cs.push_back({x, y});
+                cs.push_back({.x = x, .y = y});
             }
         }
     }
