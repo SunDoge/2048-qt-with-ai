@@ -298,7 +298,7 @@ vector<Cell> Grid::availableCells() {
     for (int x = 0; x < 4; x++) {
         for (int y = 0; y < 4; y++) {
             if (!cells[x][y]) {
-                cs.push_back({.x = x, .y = y});
+                cs.push_back({.x = x, .y = y, .value = 0});
             }
         }
     }

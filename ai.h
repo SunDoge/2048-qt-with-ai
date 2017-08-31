@@ -24,6 +24,8 @@ class AI {
 public:
     AI(Grid *g);
 
+    ~AI();
+
     int getBest();
 
 private:

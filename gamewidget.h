@@ -14,14 +14,17 @@
 
 using namespace std;
 
+// 手势方向
 enum GestureDirect {
     LEFT, RIGHT, UP, DOWN
 };
 
+// 动画类型
 enum AnimationType {
     MOVE, APPEARANCE
 };
 
+// 记录动画信息
 struct Animation {
     AnimationType type;
     GestureDirect direct;
@@ -65,6 +68,8 @@ private:
 
     bool isAutorunning;
 
+    bool isGameOver;
+
     bool checkGameOver();
 
     bool checkWin();
@@ -101,9 +106,9 @@ signals:
     void Win();
 
 public slots:
-    void onGestureMove(GestureDirect);
-    void restart();
-    void autorun();
+    void onGestureMove(GestureDirect); // 按手势方向移动
+    void restart(); // 重开游戏
+    void autorun(); // AI自动运行
 };
 
 #endif // GAMEWIDGET_H

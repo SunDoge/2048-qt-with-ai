@@ -11,6 +11,7 @@
 
 using namespace std;
 
+// 记录Tile的位置和值
 struct Cell {
     int x;
     int y;
@@ -33,25 +34,25 @@ public:
 
     ~Grid();
 
-    bool move(int direction);
+    bool move(int direction); // 向某个方向移动
 
-    bool isWin();
+    bool isWin(); // 判断是否胜利
 
-    int smoothness();
+    int smoothness(); // 平滑性
 
-    int monotonicity2();
+    int monotonicity2(); // 单调性
 
-    int maxValue();
+    int maxValue(); // 最大值
 
-    int islands();
+    int islands(); // 孤立方块
 
-    void mark(int x, int y, int value);
+    void mark(int x, int y, int value); // 标记方块
 
-    vector<Cell> availableCells();
+    vector<Cell> availableCells(); // 空闲方块
 
-    Grid *clone();
+    Grid *clone(); // 复制Grid
 
-    void update(int a[4][4]);
+    void update(int a[4][4]); // 更新Grid
 };
 
 

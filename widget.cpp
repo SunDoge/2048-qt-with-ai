@@ -188,7 +188,7 @@ void Widget::closeEvent(QCloseEvent *e) {
     gameWidget->setIsAutorunning(false);
     gameWidget->close();
     cout << "close event" << endl;
-//    e->accept();
+    e->accept();
     cout << "continue" << endl;
     exit(0);
 }

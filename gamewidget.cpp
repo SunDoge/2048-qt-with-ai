@@ -39,6 +39,7 @@ GameWidget::GameWidget(QWidget *parent) : QWidget(parent)
     digitCount = 2;
     isAnimating = false;
     isAutorunning = false;
+    isGameOver = false;
     grid = new Grid(board);
     ai = new AI(grid);
     cacheImg = NULL;
@@ -296,6 +297,7 @@ void GameWidget::onGestureMove(GestureDirect direct)
         // 如果数字填满了 检测游戏是否over
         if (checkGameOver()) {
             isAutorunning = false;
+            isGameOver = true;
             emit GameOver();// 如果游戏over了则发射GameOver信号
         }
     }
@@ -602,10 +604,10 @@ int GameWidget::getBitCount(int n)
 
 void GameWidget::autorun() {
 
-    isAutorunning = !isAutorunning;
+    isAutorunning = isGameOver? false : !isAutorunning;
 
     while (isAutorunning == true && !isAnimating) {
-        cout << "Auto running. isAutorunning = " << isAutorunning << "time: "<< time(NULL) <<endl;
+//        cout << "Auto running. isAutorunning = " << isAutorunning << "time: "<< time(NULL) <<endl;
 //    if(!isAnimating) {
 
         grid->update(board);

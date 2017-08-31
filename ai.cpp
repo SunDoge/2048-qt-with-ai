@@ -8,6 +8,11 @@ AI::AI(Grid *g) {
     grid = g;
 }
 
+AI::~AI() {
+    delete grid;
+    grid = NULL;
+}
+
 double AI::eval() {
     int emptyCells = (int) grid->availableCells().size();
 
@@ -54,7 +59,7 @@ Result AI::search(int depth, double alpha, double beta, int positions, int cutof
                 AI newAI(newGrid);
 
                 if (depth == 0) {
-                    result = {.move = direction, .score = newAI.eval()};
+                    result = {.move = direction, .score = newAI.eval(), .positions = positions, .cutoffs = cutoffs};
                 } else {
                     result = newAI.search(depth - 1, bestScore, beta, positions, cutoffs);
 
@@ -132,7 +137,7 @@ Result AI::search(int depth, double alpha, double beta, int positions, int cutof
             }
             if (bestScore < alpha) {
                 cutoffs++;
-                return { .score = -1, .positions = positions, .cutoffs = cutoffs };
+                return {.move = bestMove, .score = -1, .positions = positions, .cutoffs = cutoffs };
             }
         }
     }
@@ -145,7 +150,7 @@ Result AI::iterativeDeep() {
     QTime start;
     start.start();
     int depth = 0;
-    Result best = {.move = -1 };
+    Result best = {.move = -1, .score = 0, .positions = 0, .cutoffs = 0 };
     do {
 //        cout << "do begin" << endl;
         Result newBest = search(depth, -10000, 10000, 0 ,0);
